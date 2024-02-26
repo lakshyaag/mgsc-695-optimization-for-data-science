@@ -1,0 +1,136 @@
+\documentclass{article}[12pt]
+
+% Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    total={170mm,257mm},
+    left=20mm,
+    top=20mm,
+}
+
+% Title
+\title{Homework Assignment 1 - MGSC 695}
+\author{Lakshya Agarwal}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+\subsection{Part 1}
+The dimensions of each matrix are as follows:
+\begin{itemize}
+    \item $Y$ is a $n \times 1$ matrix
+    \item $X$ is a $n \times (k+1)$ matrix
+    \item $\beta$ is a $(k+1) \times 1$ matrix
+    \item $\epsilon$ is a $n \times 1$ matrix
+\end{itemize}
+
+Therefore, the dimensions of Equation (1) are as follows:
+\begin{align*}
+    X_{n \times (k+1)}  \beta_{(k+1) \times 1} + \epsilon_{n \times 1} = Y_{n \times 1}
+\end{align*}
+
+It is clear that the left-hand side of the above equation results in a $n \times 1$ matrix,
+which is the same as the dimensions of $Y$. Therefore, the dimensions of the matrices on both sides of
+Equation (1) match.
+
+\subsection{Part 2}
+\begin{align*}
+    Y        & = X \beta + \epsilon                                         \\
+    \epsilon & = Y - X \beta                                                \\
+    \epsilon & = \begin{bmatrix}
+                     y_1    \\
+                     y_2    \\
+                     \vdots \\
+                     y_n
+                 \end{bmatrix} - \begin{bmatrix}
+                                     1      & x_{11} & x_{12} & \dots  & x_{1k} \\
+                                     1      & x_{21} & x_{22} & \dots  & x_{2k} \\
+                                     \vdots & \vdots & \vdots & \ddots & \vdots \\
+                                     1      & x_{n1} & x_{n2} & \dots  & x_{nk} \\
+                                 \end{bmatrix} \begin{bmatrix}
+                                                   \beta_0 \\
+                                                   \vdots  \\
+                                                   \beta_k
+                                               \end{bmatrix}
+\end{align*}
+
+The $i^{th}$ element of the $\epsilon$ matrix is given by:
+\begin{align*}
+    \epsilon_{ij} & = y_i - \sum_{l=0}^{(k+1)} x_{il} \beta_l
+\end{align*}
+
+Then, the sum of squared residuals is given by:
+\begin{align*}
+    \sum_{i=1}^{n} \epsilon_{ij}^2 & = \sum_{i=1}^{n} (y_i - \sum_{l=0}^{(k+1)} x_{il} \beta_l)^2
+\end{align*}
+
+In matrix notation, this can be written as:
+\begin{align*}
+    MSE & = \epsilon^T \epsilon           \\
+        & = (Y - X \beta)^T (Y - X \beta)
+\end{align*}
+
+Here, $\epsilon^T \epsilon$ is a dot product of two vectors, and therefore, it is a scalar value.
+
+\subsection{Part 3}
+
+To calculate the partial derivative of the sum of squared residuals with respect to $\beta$,
+we first expand the matrix multiplication in the above equation:
+\begin{align*}
+    MSE & = (Y^T - \beta^T X^T) (Y - X \beta)                         \\
+        & = Y^T Y - Y^T X \beta - \beta^T X^T Y + \beta^T X^T X \beta
+\end{align*}
+
+Since $Y^T X \beta$ is a scalar, it is equal to its transpose. Therefore, $Y^T X \beta = \beta^T X^T Y$.
+\begin{align*}
+    MSE & = Y^T Y - 2 \beta^T X^T Y + \beta^T X^T X \beta
+\end{align*}
+
+Then, the partial derivative of the sum of squared residuals with respect to $\beta$ is given by:
+\begin{align*}
+    \frac{\partial MSE}{\partial \beta} & = -2 X^T Y + 2 X^T X \beta
+\end{align*}
+
+Setting the above equation to zero, we get:
+\begin{align*}
+    -2 X^T Y + 2 X^T X \beta^* & = 0             \\
+    X^T Y                      & = X^T X \beta^* \\
+    (X^T X) \beta^*            & = X^T Y
+\end{align*}
+
+\subsection{Part 4}
+Since $X^T X$ is a square matrix of size $(k+1)$, it is invertible.
+Therefore, we can multiply both sides of the above equation by $(X^T X)^{-1}$ to get:
+
+\begin{align*}
+    (X^T X)^{-1} (X^T X) \beta^* & = (X^T X)^{-1} X^T Y \\
+\end{align*}
+
+Since $A^{-1} A = I$, where $I$ is the identity matrix, we get:
+\begin{align*}
+    I \beta^* & = (X^T X)^{-1} X^T Y   \\
+    \beta^*   & = (X^T X)^{-1} (X^T Y)
+\end{align*}
+
+
+\section{Problem 2}
+Using the \texttt{advertising.csv} dataset,
+the parameter estimates obtained from Equation (2)
+and using the \texttt{scikit-learn} library are as follows:
+\begin{align*}
+    \text{Matrix algebra} & : \begin{bmatrix} 2.939 \ 0.046 \ 0.189 \ -0.001 \ \end{bmatrix} \\
+    \text{scikit-learn}   & : \begin{bmatrix} 2.939 \ 0.046 \ 0.189 \ -0.001 \ \end{bmatrix}
+\end{align*}
+
+The parameter estimates obtained from the procedures are the same.
+Please run the attached \texttt{python} script to verify the results.
+
+\end{document}
